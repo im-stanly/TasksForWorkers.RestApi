@@ -34,4 +34,10 @@ public class TaskController {
         return taskService.saveTasks(tasks);
     }
 
+    @PutMapping("/id={id}")
+    public int update(@PathVariable("id") int id, @RequestBody Task updatedTask){
+        return taskService.update(id, updatedTask);
+    }
+
+
 }

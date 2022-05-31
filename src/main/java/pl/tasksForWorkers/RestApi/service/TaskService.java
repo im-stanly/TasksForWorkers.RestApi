@@ -32,4 +32,19 @@ public class TaskService {
     public int saveTasks(List<Task> tasks){
         return taskRepository.save(tasks);
     }
+
+    public int update(int id, Task updatedTask){
+        Task oldTask = taskRepository.getById(id);
+        if (oldTask != null){
+            oldTask.setTitle(updatedTask.getTitle());
+            oldTask.setDescription(updatedTask.getDescription());
+            oldTask.setState(updatedTask.getState());
+            oldTask.setDeathline(updatedTask.getDeathline());
+            oldTask.setWorkersList(updatedTask.getWorkersList());
+
+            return taskRepository.update(oldTask);
+        }
+        return 501;
+
+    }
 }

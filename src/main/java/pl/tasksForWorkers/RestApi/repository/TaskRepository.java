@@ -42,6 +42,14 @@ public class TaskRepository {
         return 202;
     }
 
+    public int update(Task task){
+        int result = jdbcTemplate.update("UPDATE task SET title=?, description=?, state=?, deathline=? WHERE id=?",
+                task.getTitle(), task.getDescription(), task.getState(), task.getDeathline(), task.getId());
+        saveWorkersForTask(task);
+
+        return result;
+    }
+
     private Task getSingleTaskByObject(String kind, Object object){
         return jdbcTemplate.queryForObject(GET_TASK_PROPERTIES_SQL + " WHERE "
         + kind + "=?", BeanPropertyRowMapper.newInstance(Task.class), object);
