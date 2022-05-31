@@ -20,4 +20,16 @@ public class TaskService {
     public List<Task> getAllTasks(){
         return taskRepository.getAllTasks();
     }
+
+    public Task getById(int id){
+        return taskRepository.getById(id);
+    }
+
+    public Task getByTitle(String title){
+        return taskRepository.getByTitle(title);
+    }
+
+    public int saveTasks(List<Task> tasks){
+        return taskRepository.save(tasks);
+    }
 }
