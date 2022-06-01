@@ -14,7 +14,8 @@ public class WorkerRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private String GET_WORKER_PROPERTIES_SQL_CODE =  "SELECT id, taskId, name, lastName, e_mail FROM worker";
+    private final String GET_WORKER_PROPERTIES_SQL_CODE =  "SELECT id, taskId, name, lastName, e_mail FROM worker";
+    private final String WORKER_PROPERTIES_SQL = "id, taskId, name, lastName, e_mail";
 
     public List<Worker> getWorkers(){
         return jdbcTemplate.query(GET_WORKER_PROPERTIES_SQL_CODE,
@@ -27,6 +28,22 @@ public class WorkerRepository {
 
     public Worker getByTitle(String title){
         return getSingleWorkerByObject("title", title);
+    }
+
+    public int save(List<Worker> workers){
+         workers.forEach(worker -> {
+             jdbcTemplate.update("INSERT INTO worker(" + WORKER_PROPERTIES_SQL + ") "
+                     + "VALUES(?, ?, ?, ?, ?)",
+                     worker.getId(), worker.getTaskId(), worker.getName(),
+                     worker.getName(), worker.getLastName(), worker.getE_mail());
+         }
+        );
+        return 202;
+    }
+
+    public int update(Worker worker){
+        return jdbcTemplate.update("UPDATE worker SET id=?, taskId=?, name=?, lastName=?, e_mail=?",
+                worker.getId(), worker.getTaskId(), worker.getName(), worker.getLastName(), worker.getE_mail());
     }
 
     private Worker getSingleWorkerByObject(String kind, Object object){

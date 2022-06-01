@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.tasksForWorkers.RestApi.model.Task;
+import pl.tasksForWorkers.RestApi.model.Worker;
 import pl.tasksForWorkers.RestApi.repository.TaskRepository;
 
 import java.util.List;

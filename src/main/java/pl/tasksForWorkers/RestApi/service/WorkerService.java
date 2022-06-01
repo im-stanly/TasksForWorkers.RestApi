@@ -28,4 +28,28 @@ public class WorkerService {
     public Worker getBytitle(String title){
         return workerRepository.getByTitle(title);
     }
+
+    public int save(List<Worker> workers){
+        return workerRepository.save(workers);
+    }
+
+    public int update(int id, Worker worker){
+        return patchOldTaskWithNewTask(id, worker, false);
+    }
+
+    private int patchOldTaskWithNewTask(int id, Worker updatedWorker, boolean isPatchUpdate){
+        Worker oldWorker = workerRepository.getById(id);
+        if (oldWorker != null){
+            if (!isPatchUpdate || updatedWorker.getName() != null)
+                oldWorker.setName(updatedWorker.getName());
+            if (!isPatchUpdate || updatedWorker.getLastName() != null)
+                oldWorker.setLastName(updatedWorker.getLastName());
+            if (!isPatchUpdate || updatedWorker.getE_mail() != null)
+                oldWorker.setE_mail(updatedWorker.getE_mail());
+
+            return workerRepository.update(oldWorker);
+        }
+        else
+            return 501;
+    }
 }

@@ -1,10 +1,7 @@
 package pl.tasksForWorkers.RestApi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.tasksForWorkers.RestApi.model.Worker;
 import pl.tasksForWorkers.RestApi.service.WorkerService;
 
@@ -31,4 +28,15 @@ public class WorkerController {
     public Worker getByTitle(@PathVariable("title") String title){
         return workerService.getBytitle(title);
     }
+
+    @PostMapping("")
+    public int add(@RequestBody List<Worker> worker){
+        return workerService.save(worker);
+    }
+
+    @PutMapping("/id={id}")
+    public int update(@PathVariable("id") int id, @RequestBody Worker updatedWorker){
+        return workerService.update(id, updatedWorker);
+    }
+
 }
