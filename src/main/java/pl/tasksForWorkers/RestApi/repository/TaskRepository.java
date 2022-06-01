@@ -34,7 +34,8 @@ public class TaskRepository {
     public int save(List<Task> tasks){
         tasks.forEach(task -> {
             jdbcTemplate
-                    .update("INSERT INTO task(title, description, state, description, deathline) VALUES(?, ?, ?, ?, ?)",
+                    .update(
+                    "INSERT INTO task(title, description, state, description, deathline) VALUES(?, ?, ?, ?, ?)",
                     task.getTitle(), task.getDescription(), task.getState(), task.getDeathline());
 
             saveWorkersForTask(task);
@@ -43,11 +44,16 @@ public class TaskRepository {
     }
 
     public int update(Task task){
-        int result = jdbcTemplate.update("UPDATE task SET title=?, description=?, state=?, deathline=? WHERE id=?",
+        int result = jdbcTemplate.update(
+                "UPDATE task SET title=?, description=?, state=?, deathline=? WHERE id=?",
                 task.getTitle(), task.getDescription(), task.getState(), task.getDeathline(), task.getId());
         saveWorkersForTask(task);
 
         return result;
+    }
+
+    public int delete(int id){
+        return jdbcTemplate.update("DELETE FROM task WHERE id = ?", id);
     }
 
     private Task getSingleTaskByObject(String kind, Object object){

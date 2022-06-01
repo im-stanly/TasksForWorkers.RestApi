@@ -39,5 +39,14 @@ public class TaskController {
         return taskService.update(id, updatedTask);
     }
 
+    @PatchMapping("/id={id}")
+    public int patchUpdate(@PathVariable("id") int id, @RequestBody Task updatedTask){
+        return taskService.patchUpdate(id, updatedTask);
+    }
+
+    @DeleteMapping("/id={id}")
+    public int delete(@PathVariable("id") int id){
+        return taskService.delete(id);
+    }
 
 }
