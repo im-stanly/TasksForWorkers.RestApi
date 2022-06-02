@@ -17,9 +17,14 @@ public class TaskRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private WorkerRepository workerRepository;
+
     public List<Task> getAllTasks(){
         List<Task> tasks = jdbcTemplate.query(GET_TASK_PROPERTIES_SQL,
                 BeanPropertyRowMapper.newInstance(Task.class));
+        for (Task task: tasks)
+            task.setWorkersList(workerRepository.getWorkersByTaskId(task.getId()));
         return tasks;
     }
 
@@ -57,8 +62,12 @@ public class TaskRepository {
     }
 
     private Task getSingleTaskByObject(String kind, Object object){
-        return jdbcTemplate.queryForObject(GET_TASK_PROPERTIES_SQL + " WHERE "
+        Task task = jdbcTemplate.queryForObject(GET_TASK_PROPERTIES_SQL + " WHERE "
         + kind + "=?", BeanPropertyRowMapper.newInstance(Task.class), object);
+
+        task.setWorkersList(workerRepository.getWorkersByTaskId(task.getId()));
+
+        return task;
     }
 
     private void saveWorkersForTask(Task taks){

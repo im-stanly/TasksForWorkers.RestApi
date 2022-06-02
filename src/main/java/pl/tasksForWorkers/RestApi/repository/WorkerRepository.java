@@ -26,6 +26,11 @@ public class WorkerRepository {
         return getSingleWorkerByObject("id", id);
     }
 
+    public List<Worker> getWorkersByTaskId(int taskId){
+        return jdbcTemplate.query(GET_WORKER_PROPERTIES_SQL_CODE +
+                " WHERE taskId=?", BeanPropertyRowMapper.newInstance(Worker.class), taskId);
+    }
+
     public Worker getByTitle(String title){
         return getSingleWorkerByObject("title", title);
     }
