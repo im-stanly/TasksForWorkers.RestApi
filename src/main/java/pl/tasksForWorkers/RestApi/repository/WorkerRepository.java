@@ -46,6 +46,10 @@ public class WorkerRepository {
                 worker.getId(), worker.getTaskId(), worker.getName(), worker.getLastName(), worker.getE_mail());
     }
 
+    public int delete(int id){
+        return jdbcTemplate.update("DELETE FROM worker WHERE id=?", id);
+    }
+
     private Worker getSingleWorkerByObject(String kind, Object object){
         return jdbcTemplate.queryForObject(GET_WORKER_PROPERTIES_SQL_CODE + " WHERE "
                 + kind + "=?", BeanPropertyRowMapper.newInstance(Worker.class), object);

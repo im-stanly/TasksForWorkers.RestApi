@@ -39,4 +39,13 @@ public class WorkerController {
         return workerService.update(id, updatedWorker);
     }
 
+    @PatchMapping("/id={id}")
+    public int patchUpdate(@PathVariable("id") int id, @RequestBody Worker updatedWorker){
+        return workerService.patchUpdate(id, updatedWorker);
+    }
+
+    @DeleteMapping("id={id}")
+    public int delete(@PathVariable("id") int id){
+        return workerService.delete(id);
+    }
 }

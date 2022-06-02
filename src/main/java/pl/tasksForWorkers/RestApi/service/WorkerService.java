@@ -34,10 +34,18 @@ public class WorkerService {
     }
 
     public int update(int id, Worker worker){
-        return patchOldTaskWithNewTask(id, worker, false);
+        return patchOldWorkerWithNewWorker(id, worker, false);
     }
 
-    private int patchOldTaskWithNewTask(int id, Worker updatedWorker, boolean isPatchUpdate){
+    public int patchUpdate(int id, Worker updatedWorker){
+        return patchOldWorkerWithNewWorker(id, updatedWorker, true);
+    }
+
+    public int delete(int id){
+        return workerRepository.delete(id);
+    }
+
+    private int patchOldWorkerWithNewWorker(int id, Worker updatedWorker, boolean isPatchUpdate){
         Worker oldWorker = workerRepository.getById(id);
         if (oldWorker != null){
             if (!isPatchUpdate || updatedWorker.getName() != null)
