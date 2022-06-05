@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import pl.tasksForWorkers.RestApi.exception.TaskNotFoundException;
 import pl.tasksForWorkers.RestApi.model.Task;
 import pl.tasksForWorkers.RestApi.model.Worker;
 
@@ -62,10 +63,16 @@ public class TaskRepository {
     }
 
     private Task getSingleTaskByObject(String kind, Object object){
+        if (!isElementOfLibrary("task", kind, object)){
+            if (object.getClass().equals(String.class))
+                throw new TaskNotFoundException((String) object);
+            else
+                throw new TaskNotFoundException((Integer) object);
+        }
         Task task = jdbcTemplate.queryForObject(GET_TASK_PROPERTIES_SQL + " WHERE "
-        + kind + "=?", BeanPropertyRowMapper.newInstance(Task.class), object);
+                + kind + "=?", BeanPropertyRowMapper.newInstance(Task.class), object);
 
-        task.setWorkersList(workerRepository.getWorkersByTaskId(task.getId()));
+            task.setWorkersList(workerRepository.getWorkersByTaskId(task.getId()));
 
         return task;
     }
@@ -79,6 +86,14 @@ public class TaskRepository {
                     worker.getTaskId(), worker.getId());
         }
         return;
+    }
+
+    private boolean isElementOfLibrary(String nameOfTableInDB, String kind, Object object){
+        int elementsInDB = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM "
+                        + nameOfTableInDB + " WHERE " + kind + " = ?",
+                        Integer.class, object);
+
+        return elementsInDB == 1 ? true : false;
     }
 
 }

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.tasksForWorkers.RestApi.model.Task;
-import pl.tasksForWorkers.RestApi.model.Worker;
 import pl.tasksForWorkers.RestApi.repository.TaskRepository;
 
 import java.util.List;
@@ -46,9 +45,9 @@ public class TaskService {
         return taskRepository.delete(id);
     }
 
-    private int patchOldTaskWithNewTask(int id, Task updatedTask, boolean isPatchUpdate){
+    private int patchOldTaskWithNewTask(int id, Task updatedTask, boolean isPatchUpdate) {
         Task oldTask = taskRepository.getById(id);
-        if (oldTask != null){
+        if (oldTask != null) {
             if (!isPatchUpdate || updatedTask.getTitle() != null)
                 oldTask.setTitle(updatedTask.getTitle());
             if (!isPatchUpdate || updatedTask.getDescription() != null)
@@ -62,7 +61,6 @@ public class TaskService {
 
             return taskRepository.update(oldTask);
         }
-        else
-            return 501;
+        return 501;
     }
 }
