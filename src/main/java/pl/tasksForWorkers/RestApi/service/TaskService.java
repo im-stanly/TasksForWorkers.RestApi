@@ -47,20 +47,18 @@ public class TaskService {
 
     private int patchOldTaskWithNewTask(int id, Task updatedTask, boolean isPatchUpdate) {
         Task oldTask = taskRepository.getById(id);
-        if (oldTask != null) {
-            if (!isPatchUpdate || updatedTask.getTitle() != null)
-                oldTask.setTitle(updatedTask.getTitle());
-            if (!isPatchUpdate || updatedTask.getDescription() != null)
-                oldTask.setDescription(updatedTask.getDescription());
-            if (!isPatchUpdate || updatedTask.getState() != null)
-                oldTask.setState(updatedTask.getState());
-            if (!isPatchUpdate || updatedTask.getDeathline() != null)
-                oldTask.setDeathline(updatedTask.getDeathline());
-            if (!isPatchUpdate || updatedTask.getWorkersList() != null)
-                oldTask.setWorkersList(updatedTask.getWorkersList());
 
-            return taskRepository.update(oldTask);
-        }
-        return 501;
+        if (!isPatchUpdate || updatedTask.getTitle() != null)
+            oldTask.setTitle(updatedTask.getTitle());
+        if (!isPatchUpdate || updatedTask.getDescription() != null)
+            oldTask.setDescription(updatedTask.getDescription());
+        if (!isPatchUpdate || updatedTask.getState() != null)
+            oldTask.setState(updatedTask.getState());
+        if (!isPatchUpdate || updatedTask.getDeathline() != null)
+            oldTask.setDeathline(updatedTask.getDeathline());
+        if (!isPatchUpdate || updatedTask.getWorkersList() != null)
+            oldTask.setWorkersList(updatedTask.getWorkersList());
+
+        return taskRepository.update(oldTask);
     }
 }

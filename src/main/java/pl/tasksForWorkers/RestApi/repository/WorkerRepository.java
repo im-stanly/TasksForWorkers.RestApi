@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import pl.tasksForWorkers.RestApi.exception.WorkerNotFoundException;
 import pl.tasksForWorkers.RestApi.model.Worker;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class WorkerRepository {
                 " WHERE taskId=?", BeanPropertyRowMapper.newInstance(Worker.class), taskId);
     }
 
-    public Worker getByTitle(String title){
+    public Worker getByName(String title){
         return getSingleWorkerByObject("title", title);
     }
 
@@ -52,11 +53,27 @@ public class WorkerRepository {
     }
 
     public int delete(int id){
+        if (!isElementOfLibrary("worker", "id", id))
+            throw new WorkerNotFoundException(id);
         return jdbcTemplate.update("DELETE FROM worker WHERE id=?", id);
     }
 
     private Worker getSingleWorkerByObject(String kind, Object object){
+        if (!isElementOfLibrary("worker", kind, object)){
+            if (object.getClass().equals(String.class))
+                throw new WorkerNotFoundException((String) object);
+            else
+                throw new WorkerNotFoundException((Integer) object);
+        }
         return jdbcTemplate.queryForObject(GET_WORKER_PROPERTIES_SQL_CODE + " WHERE "
                 + kind + "=?", BeanPropertyRowMapper.newInstance(Worker.class), object);
+    }
+
+    protected boolean isElementOfLibrary(String nameOfTableInDB, String kind, Object object){
+        int elementsInDB = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM "
+                        + nameOfTableInDB + " WHERE " + kind + " = ?",
+                Integer.class, object);
+
+        return elementsInDB == 1 ? true : false;
     }
 }

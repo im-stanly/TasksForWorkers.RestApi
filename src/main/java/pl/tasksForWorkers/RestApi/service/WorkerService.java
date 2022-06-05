@@ -25,8 +25,8 @@ public class WorkerService {
         return workerRepository.getById(id);
     }
 
-    public Worker getBytitle(String title){
-        return workerRepository.getByTitle(title);
+    public Worker getByName(String name){
+        return workerRepository.getByName(name);
     }
 
     public int save(List<Worker> workers){

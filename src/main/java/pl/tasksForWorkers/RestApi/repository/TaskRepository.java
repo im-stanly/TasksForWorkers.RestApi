@@ -59,11 +59,13 @@ public class TaskRepository {
     }
 
     public int delete(int id){
+        if (!workerRepository.isElementOfLibrary("task", "id", id))
+            throw new TaskNotFoundException(id);
         return jdbcTemplate.update("DELETE FROM task WHERE id = ?", id);
     }
 
     private Task getSingleTaskByObject(String kind, Object object){
-        if (!isElementOfLibrary("task", kind, object)){
+        if (!workerRepository.isElementOfLibrary("task", kind, object)){
             if (object.getClass().equals(String.class))
                 throw new TaskNotFoundException((String) object);
             else
@@ -86,14 +88,6 @@ public class TaskRepository {
                     worker.getTaskId(), worker.getId());
         }
         return;
-    }
-
-    private boolean isElementOfLibrary(String nameOfTableInDB, String kind, Object object){
-        int elementsInDB = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM "
-                        + nameOfTableInDB + " WHERE " + kind + " = ?",
-                        Integer.class, object);
-
-        return elementsInDB == 1 ? true : false;
     }
 
 }

@@ -24,9 +24,9 @@ public class WorkerController {
         return workerService.getById(id);
     }
 
-    @GetMapping("title={title}")
-    public Worker getByTitle(@PathVariable("title") String title){
-        return workerService.getBytitle(title);
+    @GetMapping("name={name}")
+    public Worker getByTitle(@PathVariable("name") String name){
+        return workerService.getByName(name);
     }
 
     @PostMapping("")
