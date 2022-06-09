@@ -55,7 +55,7 @@ public class WorkerService {
             if (!isPatchUpdate || updatedWorker.getE_mail() != null)
                 oldWorker.setE_mail(updatedWorker.getE_mail());
 
-            return workerRepository.update(oldWorker);
+            return workerRepository.update(id, oldWorker);
         }
         else
             return 501;
