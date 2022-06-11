@@ -59,6 +59,6 @@ public class TaskService {
         if (!isPatchUpdate || updatedTask.getWorkersList() != null)
             oldTask.setWorkersList(updatedTask.getWorkersList());
 
-        return taskRepository.update(oldTask);
+        return taskRepository.update(id, oldTask);
     }
 }

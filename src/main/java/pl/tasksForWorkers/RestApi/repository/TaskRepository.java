@@ -41,7 +41,7 @@ public class TaskRepository {
         tasks.forEach(task -> {
             jdbcTemplate
                     .update(
-                    "INSERT INTO task(title, description, state, description, deathline) VALUES(?, ?, ?, ?, ?)",
+                    "INSERT INTO task(title, description, state, deathline) VALUES(?, ?, ?, ?)",
                     task.getTitle(), task.getDescription(), task.getState(), task.getDeathline());
 
             saveWorkersForTask(task);
@@ -49,10 +49,11 @@ public class TaskRepository {
         return 202;
     }
 
-    public int update(Task task){
+    public int update(int oldId, Task task){
         int result = jdbcTemplate.update(
-                "UPDATE task SET title=?, description=?, state=?, deathline=? WHERE id=?",
-                task.getTitle(), task.getDescription(), task.getState(), task.getDeathline(), task.getId());
+                "UPDATE task SET id=?, title=?, description=?, state=?, deathline=? WHERE id=?",
+                task.getId(), task.getTitle(), task.getDescription(), task.getState(),
+                task.getDeathline(), oldId);
         saveWorkersForTask(task);
 
         return result;

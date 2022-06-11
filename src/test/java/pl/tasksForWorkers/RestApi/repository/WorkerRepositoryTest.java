@@ -22,8 +22,8 @@ class WorkerRepositoryTest {
     }
 
     @Test
-    void getWorkerByIdFiveShouldNotBePossible() {
-        int id = 5;
+    void getWorkerByIdNegativeShouldNotBePossible() {
+        int id = -1;
 
         assertThrows(WorkerNotFoundException.class,
                 () -> workerRepository.getById(id));
@@ -57,10 +57,11 @@ class WorkerRepositoryTest {
     }
 
     @Test
-    void updateReturnsNumbOfChangeRowsSoShouldBeZero() {
-        var worker = new Worker(3, 1, "Ben", "Johnson", "benny.com");
+    void updateReturnsNumbOfChangeRowsSoShouldBeZeroIfWeChangeNothing() {
+        int idOfWorkerToUpdate = 3;
+        var worker = workerRepository.getById(idOfWorkerToUpdate);
 
-        assertEquals(0, workerRepository.update(5, worker));
+        assertEquals(1, workerRepository.update(idOfWorkerToUpdate, worker));
     }
 
     @Test
