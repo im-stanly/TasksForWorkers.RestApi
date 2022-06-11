@@ -19,12 +19,12 @@ public class WorkerController {
         return workerService.getWorkers();
     }
 
-    @GetMapping("id={id}")
+    @GetMapping("/id={id}")
     public Worker getById(@PathVariable("id") int id){
         return workerService.getById(id);
     }
 
-    @GetMapping("name={name}")
+    @GetMapping("/name={name}")
     public Worker getByTitle(@PathVariable("name") String name){
         return workerService.getByName(name);
     }
@@ -44,7 +44,7 @@ public class WorkerController {
         return workerService.patchUpdate(id, updatedWorker);
     }
 
-    @DeleteMapping("id={id}")
+    @DeleteMapping("/id={id}")
     public int delete(@PathVariable("id") int id){
         return workerService.delete(id);
     }
