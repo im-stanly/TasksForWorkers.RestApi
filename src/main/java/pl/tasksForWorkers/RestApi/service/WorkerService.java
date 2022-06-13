@@ -47,17 +47,16 @@ public class WorkerService {
 
     private int patchOldWorkerWithNewWorker(int id, Worker updatedWorker, boolean isPatchUpdate){
         Worker oldWorker = workerRepository.getById(id);
-        if (oldWorker != null){
-            if (!isPatchUpdate || updatedWorker.getName() != null)
+        if (isPatchUpdate){
+            if (updatedWorker.getName() != null)
                 oldWorker.setName(updatedWorker.getName());
-            if (!isPatchUpdate || updatedWorker.getLastName() != null)
+            if (updatedWorker.getLastName() != null)
                 oldWorker.setLastName(updatedWorker.getLastName());
-            if (!isPatchUpdate || updatedWorker.getE_mail() != null)
+            if (updatedWorker.getE_mail() != null)
                 oldWorker.setE_mail(updatedWorker.getE_mail());
-
-            return workerRepository.update(id, oldWorker);
         }
         else
-            return 501;
+            oldWorker = updatedWorker;
+        return workerRepository.update(id, oldWorker);
     }
 }
