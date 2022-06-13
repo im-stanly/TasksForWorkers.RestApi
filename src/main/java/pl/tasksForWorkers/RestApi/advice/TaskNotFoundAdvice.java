@@ -19,5 +19,4 @@ public class TaskNotFoundAdvice {
     public ExceptionModel taskNotFoundHandler(TaskNotFoundException ex){
         return new ExceptionModel(LocalDateTime.now(), 404, ex.getMessage());
     }
-
 }

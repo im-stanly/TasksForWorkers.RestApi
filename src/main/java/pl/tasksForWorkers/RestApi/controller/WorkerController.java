@@ -41,6 +41,7 @@ public class WorkerController {
 
     @PatchMapping("/id={id}")
     public int patchUpdate(@PathVariable("id") int id, @RequestBody Worker updatedWorker){
+        System.out.println();
         return workerService.patchUpdate(id, updatedWorker);
     }
 
