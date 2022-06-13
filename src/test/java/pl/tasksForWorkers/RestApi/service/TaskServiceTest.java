@@ -27,11 +27,14 @@ class TaskServiceTest {
     void updatedTaskShouldReplaceOldOne(){
         int idTaskToUpdate = 4;
         Task taskToUpdate = taskService.getById(idTaskToUpdate);
-        taskToUpdate.setDescription("Description");
-        var response = taskService.update(idTaskToUpdate, taskToUpdate);
+
+        if (taskToUpdate.getDescription() != null){
+            taskToUpdate.setDescription("Description");
+            taskService.update(idTaskToUpdate, taskToUpdate);
+        }
 
         taskToUpdate.setDescription(null);
-        response = taskService.update(idTaskToUpdate, taskToUpdate);
+        taskService.update(idTaskToUpdate, taskToUpdate);
         Task taskAfterUpdate = taskService.getById(idTaskToUpdate);
 
         assertEquals(null, taskAfterUpdate.getDescription());

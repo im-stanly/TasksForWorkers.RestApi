@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Worker {
     private int id;
-    private int taskId;
+    private Integer taskId;
     private String name;
     private String lastName;
     private String e_mail;
