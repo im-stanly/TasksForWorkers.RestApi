@@ -72,10 +72,10 @@ public class WorkerRepository {
     }
 
     protected boolean isElementOfLibrary(String nameOfTableInDB, String kind, Object object){
-        int elementsInDB = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM "
+        var elementsInDB = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM "
                         + nameOfTableInDB + " WHERE " + kind + " = ?",
                 Integer.class, object);
 
-        return elementsInDB == 1 ? true : false;
+        return elementsInDB != null;
     }
 }

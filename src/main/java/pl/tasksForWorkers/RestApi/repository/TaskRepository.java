@@ -66,16 +66,18 @@ public class TaskRepository {
     }
 
     private Task getSingleTaskByObject(String kind, Object object){
-        if (!workerRepository.isElementOfLibrary("task", kind, object)){
-            if (object.getClass().equals(String.class))
-                throw new TaskNotFoundException((String) object);
-            else
-                throw new TaskNotFoundException((Integer) object);
-        }
         Task task = jdbcTemplate.queryForObject(GET_TASK_PROPERTIES_SQL + " WHERE "
                 + kind + "=?", BeanPropertyRowMapper.newInstance(Task.class), object);
+        if (task == null){
+            if (object.getClass().equals(String.class)) {
+                throw new TaskNotFoundException((String) object);
+            }
+            else {
+                throw new TaskNotFoundException((Integer) object);
+            }
+        }
 
-            task.setWorkersList(workerRepository.getWorkersByTaskId(task.getId()));
+        task.setWorkersList(workerRepository.getWorkersByTaskId(task.getId()));
 
         return task;
     }
