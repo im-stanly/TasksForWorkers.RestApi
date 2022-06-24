@@ -1,5 +1,6 @@
 package pl.tasksForWorkers.RestApi.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.tasksForWorkers.RestApi.model.Task;
@@ -7,6 +8,7 @@ import pl.tasksForWorkers.RestApi.service.TaskService;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -16,37 +18,79 @@ public class TaskController {
 
     @GetMapping("")
     public List<Task> getAllTasks(){
-        return taskService.getAllTasks();
+        log.info("User has entered the /tasks endpoint");
+        log.debug("entering getAllTasks() in taskService");
+
+        List<Task> allTasks = taskService.getAllTasks();
+
+        log.debug("exiting serviceTask");
+        return allTasks;
     }
 
     @GetMapping("/id={id}")
     public Task getById(@PathVariable("id") int id){
-        return taskService.getById(id);
+        log.info("User has entered the /tasks/id=" + id + " endpoint");
+        log.debug("entering getById() in taskService, id = " + id);
+
+        Task task = taskService.getById(id);
+
+        log.debug("exiting serviceTask, task = " + task);
+        return task;
     }
 
     @GetMapping("/title={title}")
     public Task getByTitle(@PathVariable("title") String title){
-        return taskService.getByTitle(title);
+        log.info("User has entered the /tasks/title=" + title + " endpoint");
+        log.debug("entering getByTitle() in taskService, title = " + title);
+
+        Task task = taskService.getByTitle(title);
+
+        log.debug("exiting serviceTask");
+        return task;
     }
 
     @PostMapping("")
     public int add(@RequestBody List<Task> tasks){
-        return taskService.saveTasks(tasks);
+        log.info("starting to save list of tasks...");
+        log.debug("entering saveTasks() in taskService, tasks = " + tasks);
+
+        int response = taskService.saveTasks(tasks);
+
+        log.debug("all went well");
+        return response;
     }
 
     @PutMapping("/id={id}")
     public int update(@PathVariable("id") int id, @RequestBody Task updatedTask){
-        return taskService.update(id, updatedTask);
+        log.info("starting to update the task...");
+        log.debug("entering update() in taskService, id = " + id + " , Task = " + updatedTask);
+
+        int response = taskService.update(id, updatedTask);
+
+        log.debug("all went well");
+        return response;
     }
 
     @PatchMapping("/id={id}")
     public int patchUpdate(@PathVariable("id") int id, @RequestBody Task updatedTask){
-        return taskService.patchUpdate(id, updatedTask);
+        log.info("starting to patchUpdate the task...");
+        log.debug("entering patchUpdate() in taskService, id = " + id + " , Task = " + updatedTask);
+
+        int response = taskService.patchUpdate(id, updatedTask);
+
+        log.debug("all went well");
+        return response;
     }
 
     @DeleteMapping("/id={id}")
     public int delete(@PathVariable("id") int id){
-        return taskService.delete(id);
+        log.info("starting to delete the task...");
+        log.debug("entering delete() in taskService, id = " + id);
+
+        int response = taskService.delete(id);
+
+        log.debug("all went well");
+        return response;
     }
 
 }
