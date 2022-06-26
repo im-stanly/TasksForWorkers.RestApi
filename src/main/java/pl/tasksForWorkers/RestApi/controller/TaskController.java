@@ -19,11 +19,11 @@ public class TaskController {
     @GetMapping("")
     public List<Task> getAllTasks(){
         log.info("User has entered the /tasks endpoint");
-        log.debug("entering getAllTasks() in taskService");
+        log.debug("entering getAllTasks() in taskService...");
 
         List<Task> allTasks = taskService.getAllTasks();
 
-        log.debug("exiting serviceTask");
+        log.debug("exiting taskService. All went well");
         return allTasks;
     }
 
@@ -34,7 +34,7 @@ public class TaskController {
 
         Task task = taskService.getById(id);
 
-        log.debug("exiting serviceTask, task = " + task);
+        log.debug("exiting taskService, task = " + task);
         return task;
     }
 
@@ -45,7 +45,7 @@ public class TaskController {
 
         Task task = taskService.getByTitle(title);
 
-        log.debug("exiting serviceTask");
+        log.debug("exiting taskService, task = "  + task);
         return task;
     }
 
@@ -56,7 +56,7 @@ public class TaskController {
 
         int response = taskService.saveTasks(tasks);
 
-        log.debug("all went well");
+        log.debug("response code is " + response);
         return response;
     }
 
@@ -67,7 +67,7 @@ public class TaskController {
 
         int response = taskService.update(id, updatedTask);
 
-        log.debug("all went well");
+        log.debug("response code is " + response);
         return response;
     }
 
@@ -78,7 +78,7 @@ public class TaskController {
 
         int response = taskService.patchUpdate(id, updatedTask);
 
-        log.debug("all went well");
+        log.debug("response code is " + response);
         return response;
     }
 
@@ -89,7 +89,7 @@ public class TaskController {
 
         int response = taskService.delete(id);
 
-        log.debug("all went well");
+        log.debug("response code is " + response);
         return response;
     }
 
